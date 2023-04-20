@@ -1,0 +1,24 @@
+name: Auto-Back-Merge
+description: "Automatically create backmerge PR"
+
+# masterにpushしたときに発生
+on:
+  push:
+    branches:
+      - master
+
+runs:
+  # タスクを再利用できるようにする
+  using: "composite"
+  steps:
+    # hubコマンドを使用できるようにする
+    - name: Install hub
+      run: |
+        sudo apt-get update
+        sudo apt-get install hub
+
+    # master → developにマージバックするPRを作成する
+    - name: Create back merge pull request
+      # Create pull request to merge master branch into develop branch
+      run: hub pull-request -b develop -h master -m "Merge master into develop"
+

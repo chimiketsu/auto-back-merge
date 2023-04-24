@@ -1,0 +1,42 @@
+#!/bin/bash
+
+set -eu
+
+main() {
+  create_back_merge_pr
+  # It should be performed at the end because it will exit if posting a message to Slack fails
+  post_to_slack
+}
+
+create_back_merge_pr() {
+  gh pr create --title "Back merge" --body "Back merge into $base from $head" --base $base --head "$head"
+}
+
+post_to_slack() {
+  if [ "$SLACK_CHANNEL" = "" ] || [ "$SLACK_TOKEN" = "" ]; then
+    return
+  fi
+
+  if $DEBUG; then
+  slack_message="Create back merge PR <https://github.com/$REPOSITORY/pulls|(DEBUG: a PR number with the link is inserted here on production)>"
+  else
+  slack_message="Create back merge PR <https://github.com/$REPOSITORY/pull/$PR|#$PR>"
+  fi
+
+  response=$(
+    curl \
+      -d "text=$slack_message " \
+      -d "channel=$SLACK_CHANNEL" \
+      -H "Authorization: Bearer $SLACK_TOKEN" \
+      -X POST https://slack.com/api/chat.postMessage
+  )
+
+  ok=$(echo "$response" | jq -r .ok)
+
+  if ! $ok; then
+    echo "Error: Failed to post a message to Slack." >&2
+    echo "$response" >&2
+    exit 1
+  fi
+}
+

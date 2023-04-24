@@ -5,24 +5,40 @@ branding:
   icon: file-text
   color: purple
 
-# masterにpushしたときに発生
-on:
-  push:
-    branches:
-      - main
+inputs:
+  head:
+    description: "A production branch name"
+    default: main
+    required: true
+  base:
+    description: "A develop branch name"
+    default: develop
+    required: true
+  slack_token:
+    description: "A Slack bot token"
+    default: ""
+    required: false
+  slack_channel:
+    description: "A Slack channel ID where you want to post a message"
+    default: ""
+    required: false
 
 runs:
   # タスクを再利用できるようにする
   using: "composite"
   steps:
-    # hubコマンドを使用できるようにする
-    - name: Install hub
-      run: |
-        sudo apt-get update
-        sudo apt-get install hub
-
-    # master → developにマージバックするPRを作成する
+    # master → developにバックマージするPRを作成する
     - name: Create back merge pull request
+      run: ${{ github.action_path }}/main
       shell: bash
-      # Create pull request to merge master branch into develop branch
-      run: hub pull-request -b develop -h main -m "Merge master into develop"
+      env:
+        REPOSITORY:   ${{ github.repository }}
+        PR:           ${{ github.event.number }}
+        GITHUB_TOKEN: ${{ github.token }}
+
+        HEAD:          ${{ inputs.head }}
+        BASE:          ${{ inputs.base }}
+        SLACK_TOKEN:   ${{ inputs.slack_token }}
+        SLACK_CHANNEL: ${{ inputs.slack_channel }}
+
+        DEBUG: true

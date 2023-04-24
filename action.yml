@@ -1,5 +1,9 @@
 name: Auto-Back-Merge
-description: "Automatically create back merge PR"
+description: "Automatically create a back merge PR when pushing to the production branch."
+author: "chimiketsu"
+branding:
+  icon: file-text
+  color: purple
 
 # masterにpushしたときに発生
 on:
@@ -19,5 +23,6 @@ runs:
 
     # master → developにマージバックするPRを作成する
     - name: Create back merge pull request
+      shell: bash
       # Create pull request to merge master branch into develop branch
       run: hub pull-request -b develop -h main -m "Merge master into develop"

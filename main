@@ -11,7 +11,7 @@ main() {
 
 create_back_merge_pr() {
   echo "create_back_merge_pr method start"
-  gh pr create --title "Back merge" --body "Back merge into $base from $head" --base $base --head "$head"
+  gh pr create --title "Back merge" --body "Back merge into $BASE from $HEAD" --base $BASE --head "$HEAD"
   echo "create_back_merge_pr method end"
 }
 

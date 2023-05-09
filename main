@@ -3,13 +3,16 @@
 set -eu
 
 main() {
+  echo "main method"
   create_back_merge_pr
   # It should be performed at the end because it will exit if posting a message to Slack fails
   post_to_slack
 }
 
 create_back_merge_pr() {
+  echo "create_back_merge_pr method start"
   gh pr create --title "Back merge" --body "Back merge into $base from $head" --base $base --head "$head"
+  echo "create_back_merge_pr method end"
 }
 
 post_to_slack() {

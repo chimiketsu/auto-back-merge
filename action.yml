@@ -34,7 +34,7 @@ runs:
       env:
         REPOSITORY:   ${{ github.repository }}
         PR:           ${{ github.event.number }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ github.token }}
 
         HEAD:          ${{ inputs.head }}
         BASE:          ${{ inputs.base }}

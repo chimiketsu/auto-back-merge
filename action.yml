@@ -41,5 +41,3 @@ runs:
         PR_TITLE:      ${{ inputs.pr_title }}
         SLACK_TOKEN:   ${{ inputs.slack_token }}
         SLACK_CHANNEL: ${{ inputs.slack_channel }}
-
-        DEBUG: true

@@ -3,12 +3,12 @@
 set -eu
 
 main() {
-  create_back_merge_pr
+  create_pr
   # It should be performed at the end because it will exit if posting a message to Slack fails
   post_to_slack
 }
 
-create_back_merge_pr() {
+create_pr() {
   gh pr create --title $PR_TITLE --base $BASE --head "$HEAD"
 }
 
@@ -18,9 +18,9 @@ post_to_slack() {
   fi
 
   if $DEBUG; then
-  slack_message="Create back merge PR <https://github.com/$REPOSITORY/pulls|(DEBUG: a PR number with the link is inserted here on production)>"
+  slack_message="Create PR <https://github.com/$REPOSITORY/pulls|(DEBUG: a PR number with the link is inserted here on production)>"
   else
-  slack_message="Create back merge PR <https://github.com/$REPOSITORY/pull/$PR|#$PR>"
+  slack_message="Create PR <https://github.com/$REPOSITORY/pull/$PR|#$PR>"
   fi
 
   response=$(

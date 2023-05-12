@@ -38,6 +38,5 @@ runs:
 
         HEAD:          ${{ inputs.head }}
         BASE:          ${{ inputs.base }}
-        PR_TITLE:      ${{ inputs.pr_title }}
         SLACK_TOKEN:   ${{ inputs.slack_token }}
         SLACK_CHANNEL: ${{ inputs.slack_channel }}

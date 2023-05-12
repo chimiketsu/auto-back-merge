@@ -9,7 +9,7 @@ main() {
 }
 
 create_pr() {
-  gh pr create --title $PR_TITLE --base $BASE --head "$HEAD"
+  gh pr create --title "back merge" --base $BASE --head "$HEAD"
 }
 
 post_to_slack() {

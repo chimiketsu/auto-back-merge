@@ -40,3 +40,6 @@ runs:
         BASE:          ${{ inputs.base }}
         SLACK_TOKEN:   ${{ inputs.slack_token }}
         SLACK_CHANNEL: ${{ inputs.slack_channel }}
+
+        # Please uncomment if you need debug
+        # DEBUG: true
